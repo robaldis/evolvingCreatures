@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot name="first">
+    <link name="base_link">
+        <visual>
+            <geometry> 
+                <cylinder length="0.6" radius="0.25"/>
+            </geometry> 
+        </visual>
+        <collision>
+            <geometry> 
+                <cylinder length="0.6" radius="0.25"/>
+            </geometry> 
+        </collision>
+
+        <inertial>
+            <mass value="0.25"/>
+            <inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
+        </inertial>
+    </link>
+    <link name="child_link">
+        <visual>
+            <geometry> 
+                <cylinder length="1" radius="0.1"/>
+            </geometry> 
+        </visual>
+        <collision>
+            <geometry> 
+                <cylinder length="1" radius="0.1"/>
+            </geometry> 
+        </collision>
+
+        <inertial>
+            <mass value="0.25"/>
+            <inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
+        </inertial>
+    </link>
+
+    <joint name="base_to_child" type="revolute">
+        <parent link="base_link"/>
+        <child link="child_link"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="1" velocity="1"/>
+        <origin rpy="1 0 0" xyz="0.4: 0 0"/>
+    </joint>
+</robot>
