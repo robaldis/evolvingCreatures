@@ -31,11 +31,11 @@ class Genome():
                 "link-length": {"scale":1},
                 "link-radius": {"scale":1},
                 "link-recurrence": {"scale":4},
-                "lin-mass": {"scale":1},
+                "link-mass": {"scale":1},
                 "joint-mass":{"scale":1},
                 "joint-type":{"scale":1},
                 "joint-parent":{"scale":1},
-                "joint-axis-ayz":{"scale":1},
+                "joint-axis-xyz":{"scale":1},
                 "joint-origin-rpy-1": {"scale":np.pi*2},
                 "joint-origin-rpy-2": {"scale":np.pi*2},
                 "joint-origin-rpy-3": {"scale":np.pi*2},
@@ -70,11 +70,53 @@ class Genome():
                 exp_links.append(c_copy)
                 Genome.expandLinks(c, uniq_name, flat_links, exp_links)
 
+    @staticmethod
+    def get_gene_dict(gene, spec):
+        gdict = {}
+        for key in spec:
+            ind = spec[key]["ind"]
+            scale = spec[key]["scale"]
+            gdict[key] = gene[ind] * scale
+
+        return gdict
+
+    @staticmethod
+    def get_genome_dict(genome, spec):
+        gdicts = []
+        for gene in genome:
+            gdicts.append(Genome.get_gene_dict(gene, spec))
+
+        return gdicts
+
+    @staticmethod
+    def genome_to_links(dnaDict):
+        parent_ind = 0
+        parent_names = [str(parent_ind)]
+        links = []
+        for gdict in dnaDict:
+            link_ind =+ 1
+            link_name = str(link_ind)
+            parent_ind = gdict["joint-parent"] * len(parent_names)
+            parent_name = parent_names[int(parent_ind)]
+            recur = gdict["link-recurrence"]
+            link_length = gdict["link-length"]
+
+            # TODO: add all the attributes from the gene to the URDFLink
+            link = URDFLink(link_name, parent_name, recur, link_length)
+            links.append(link)
+            parent_names.append(link_name)
+
+        return links
+
+
+
 class URDFLink():
-    def __init__(self, name, parent_name, recur):
+    def __init__(self, name, parent_name, recur, 
+            link_shape=0, link_length=0.1, link_radius=1, link_mass=1, joint_mass=1, 
+            joint_type=1, joint_axis_xyz=1, joint_origin_rpy_1=1, joint_origin_rpy_2=1,
+            joint_origin_rpy_3=1, joint_origin_xyz_1=1,joint_origin_xyz_2=1, 
+            joint_origin_xyz_3=1, control_waveform=1, control_amp=1, control_freq=0):
         self.name = name
         self.parent_name = parent_name
         self.recur = recur
-
-    def phase_two():
-        pass
+        self.link_length = link_length

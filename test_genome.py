@@ -65,7 +65,7 @@ class GenomeTest(unittest.TestCase):
         exp_links = [links[0]]
         genome.Genome.expandLinks(links[0], links[0].name, links, exp_links)
         names = [l.name + " " + str(l.parent_name) for l in exp_links]
-        print(names)
+        # print(names)
         self.assertEqual(len(exp_links), 6)
 
     def testExpandLinksEqual(self):
@@ -81,6 +81,26 @@ class GenomeTest(unittest.TestCase):
         names = [l.name for l in exp_links]
         self.assertEqual(names, expected)
 
+
+    def testGeneToGenomeDict(self):
+        spec = genome.Genome.get_gene_spec()
+        gene = genome.Genome.get_random_gene(len(spec))
+        gene_dict = genome.Genome.get_gene_dict(gene, spec)
+        self.assertIn("joint-parent", gene_dict)
+
+    def testGenomeToDictLength(self):
+        spec = genome.Genome.get_gene_spec()
+        dna = genome.Genome.get_random_genome(len(spec), 3)
+        gene_dicts = genome.Genome.get_genome_dict(dna, spec)
+        self.assertEqual(len(gene_dicts), 3)
+
+    def testGetLinks(self):
+        spec = genome.Genome.get_gene_spec()
+        dna = genome.Genome.get_random_genome(len(spec), 3)
+        dna_dict = genome.Genome.get_genome_dict(dna, spec)
+        links = genome.Genome.genome_to_links(dna_dict)
+        self.assertEqual(len(links), 3)
+        
 
 
 unittest.main()
