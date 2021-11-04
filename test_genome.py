@@ -45,4 +45,42 @@ class GenomeTest(unittest.TestCase):
         self.assertGreater(gene[spec['link-length']['ind']], 0)
 
 
+    def testFlatLinks(self):
+        links = [
+                genome.URDFLink(name="A", parent_name=None, recur=1),
+                genome.URDFLink(name="B", parent_name="A", recur=1),
+                genome.URDFLink(name="C", parent_name="B", recur=2),
+                genome.URDFLink(name="D", parent_name="C", recur=1)
+                ]
+        self.assertIsNotNone(links)
+
+
+    def testExpandLinksLen(self):
+        links = [
+                genome.URDFLink(name="A", parent_name=None, recur=1),
+                genome.URDFLink(name="B", parent_name="A", recur=1),
+                genome.URDFLink(name="C", parent_name="B", recur=2),
+                genome.URDFLink(name="D", parent_name="C", recur=1)
+                ]
+        exp_links = [links[0]]
+        genome.Genome.expandLinks(links[0], links[0].name, links, exp_links)
+        names = [l.name + " " + str(l.parent_name) for l in exp_links]
+        print(names)
+        self.assertEqual(len(exp_links), 6)
+
+    def testExpandLinksEqual(self):
+        links = [
+                genome.URDFLink(name="A", parent_name=None, recur=1),
+                genome.URDFLink(name="B", parent_name="A", recur=1),
+                genome.URDFLink(name="C", parent_name="B", recur=2),
+                genome.URDFLink(name="D", parent_name="C", recur=1)
+                ]
+        expected = ["A", "B1", "C2", "D3", "C4", "D5"]
+        exp_links = [links[0]]
+        genome.Genome.expandLinks(links[0], links[0].name, links, exp_links)
+        names = [l.name for l in exp_links]
+        self.assertEqual(names, expected)
+
+
+
 unittest.main()
