@@ -62,7 +62,7 @@ class Genome():
         """
         children = [l for l in flat_links if l.parent_name == parent_link.name]
         for c in children:
-            for r in range(c.recur):
+            for r in range(int(c.recur)):
                 c_copy = copy.copy(c)
                 c_copy.parent_name = uniq_parent_name
                 uniq_name = c_copy.name + str(len(exp_links))
@@ -123,6 +123,7 @@ class URDFLink():
         self.name = name
         self.parent_name = parent_name
         self.recur = recur
+        self.link_shpae = link_shape
         self.link_length = link_length
         self.link_radius = link_radius
         self.link_mass = link_mass
@@ -138,3 +139,25 @@ class URDFLink():
         self.control_waveform = control_waveform
         self.control_amp = control_amp
         self.control_freq = control_freq
+
+    def link_to_xml(self, adom):
+
+        # TODO: complete all the tags for the link
+        link_tag = adom.createElement("link")
+        link_tag.setAttribute("name", self.name)
+        vis_tag = adom.createElement("visual")
+        geom_tag = adom.createElement("geometry")
+        cyl_tag = adom.createElement("cylinder")
+        cyl_tag.setAttribute("length", str(self.link_length))
+        cyl_tag.setAttribute("radisu", str(self.link_radius))
+
+        geom_tag.appendChild(cyl_tag)
+        vis_tag.appendChild(geom_tag)
+        link_tag.appendChild(vis_tag)
+
+        return link_tag.toprettyxml()
+
+    def joint_to_xml(self, adom):
+        # TODO: implement the link tag for URDF
+        return ""
+

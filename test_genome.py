@@ -1,6 +1,7 @@
 import unittest
 from src import genome
 import numpy as np
+from xml.dom.minidom import getDOMImplementation
 
 class GenomeTest(unittest.TestCase):
 
@@ -37,6 +38,10 @@ class GenomeTest(unittest.TestCase):
     def testGeneSpecHasLinkLengthIndex(self):
         spec = genome.Genome.get_gene_spec()
         self.assertIsNotNone(spec['link-length']['ind'])
+
+    def testGeneSpecLength(self):
+        spec = genome.Genome.get_gene_spec()
+        self.assertEqual(len(spec), 18)
 
 
     def testGeneSpecScale(self):
@@ -101,6 +106,13 @@ class GenomeTest(unittest.TestCase):
         links = genome.Genome.genome_to_links(dna_dict)
         self.assertEqual(len(links), 3)
         
+    def testLinkToXMLNotNone(self):
+        link = genome.URDFLink(name="A", parent_name=None, recur=1)
+        domimpl = getDOMImplementation()
+        adom = domimpl.createDocument(None, "robot", None)
+        xml_str = link.link_to_xml(adom)
+        print(xml_str)
+        self.assertIsNotNone(xml_str)
 
 
 unittest.main()
