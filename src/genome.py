@@ -90,22 +90,25 @@ class Genome():
 
     @staticmethod
     def genome_to_links(dnaDict):
-        parent_ind = 0
-        parent_names = [str(parent_ind)]
         links = []
+        link_ind = 0
+        parent_names = [str(link_ind)]
+
         for gdict in dnaDict:
-            link_ind =+ 1
             link_name = str(link_ind)
             parent_ind = gdict["joint-parent"] * len(parent_names)
             parent_name = parent_names[int(parent_ind)]
-            recur = gdict["link-recurrence"]
+            recur = gdict["link-recurrence"] + 1
             link_length = gdict["link-length"]
 
             # TODO: add all the attributes from the gene to the URDFLink
             link = URDFLink(link_name, parent_name, recur, link_length)
-            links.append(link)
-            parent_names.append(link_name)
 
+            links.append(link)
+            if link_ind != 0:
+                parent_names.append(link_name)
+            link_ind  = link_ind + 1
+        links[0].parent_name = "None"
         return links
 
 
@@ -116,7 +119,22 @@ class URDFLink():
             joint_type=1, joint_axis_xyz=1, joint_origin_rpy_1=1, joint_origin_rpy_2=1,
             joint_origin_rpy_3=1, joint_origin_xyz_1=1,joint_origin_xyz_2=1, 
             joint_origin_xyz_3=1, control_waveform=1, control_amp=1, control_freq=0):
+
         self.name = name
         self.parent_name = parent_name
         self.recur = recur
         self.link_length = link_length
+        self.link_radius = link_radius
+        self.link_mass = link_mass
+        self.joint_mass = joint_mass
+        self.joint_type = joint_type
+        self.joint_axis_xyz = joint_axis_xyz
+        self.joint_origin_rpy_1 = joint_origin_rpy_1
+        self.joint_origin_rpy_2 = joint_origin_rpy_2
+        self.joint_origin_rpy_3 = joint_origin_rpy_3
+        self.joint_origin_xyz_1 = joint_origin_xyz_1
+        self.joint_origin_xyz_2 = joint_origin_xyz_2
+        self.joint_origin_xyz_3 = joint_origin_xyz_3
+        self.control_waveform = control_waveform
+        self.control_amp = control_amp
+        self.control_freq = control_freq
