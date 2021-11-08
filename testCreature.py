@@ -17,6 +17,13 @@ class TestCreature (unittest.TestCase):
             exp_links = c.get_expanded_links()
             self.assertGreaterEqual(len(exp_links), len(links))
 
+    def testToXML(self):
+        c = creature.Creature(gene_count=4)
+        xml = c.to_xml()
+        print(xml)
+        self.assertIsNotNone(xml)
+
+
 
 
 unittest.main()

@@ -55,7 +55,7 @@ class Genome():
         return spec
 
     @staticmethod
-    def expandLinks(parent_link, uniq_parent_name, flat_links, exp_links):
+    def expand_links(parent_link, uniq_parent_name, flat_links, exp_links):
         """
         Recurcivly expand the flat links to indervidual, more like how it will 
         be represented as a graph
@@ -68,7 +68,7 @@ class Genome():
                 uniq_name = c_copy.name + str(len(exp_links))
                 c_copy.name = uniq_name
                 exp_links.append(c_copy)
-                Genome.expandLinks(c, uniq_name, flat_links, exp_links)
+                Genome.expand_links(c, uniq_name, flat_links, exp_links)
 
     @staticmethod
     def get_gene_dict(gene, spec):
@@ -102,13 +102,30 @@ class Genome():
             link_length = gdict["link-length"]
 
             # TODO: add all the attributes from the gene to the URDFLink
-            link = URDFLink(link_name, parent_name, recur, link_length)
+            link = URDFLink(name = link_name, 
+                    parent_name = parent_name,
+                    recur = recur,
+                    link_length = link_length, 
+                    link_shape = gdict["link-shape"],
+                    link_radius = gdict["link-radius"],
+                    link_mass = gdict["link-mass"],
+                    joint_type = gdict["joint-type"],
+                    joint_axis_xyz = gdict["joint-axis-xyz"],
+                    joint_origin_rpy_1 = gdict["joint-origin-rpy-1"],
+                    joint_origin_rpy_2 = gdict["joint-origin-rpy-2"],
+                    joint_origin_rpy_3 = gdict["joint-origin-rpy-3"],
+                    joint_origin_xyz_1 = gdict["joint-origin-xyz-1"],
+                    joint_origin_xyz_2 = gdict["joint-origin-xyz-2"], 
+                    joint_origin_xyz_3 = gdict["joint-origin-xyz-3"],
+                    control_waveform = gdict["control-waveform"],
+                    control_amp = gdict["control-amp"],
+                    control_freq = gdict["control-freq"])
 
             links.append(link)
-            if link_ind != 0:
+            if link_ind != 0: # don't re-add the first link
                 parent_names.append(link_name)
             link_ind  = link_ind + 1
-        links[0].parent_name = "None"
+        links[0].parent_name = "None" # Make sure the first parents name is none
         return links
 
 
@@ -118,12 +135,12 @@ class URDFLink():
             link_shape=0, link_length=0.1, link_radius=1, link_mass=1, joint_mass=1, 
             joint_type=1, joint_axis_xyz=1, joint_origin_rpy_1=1, joint_origin_rpy_2=1,
             joint_origin_rpy_3=1, joint_origin_xyz_1=1,joint_origin_xyz_2=1, 
-            joint_origin_xyz_3=1, control_waveform=1, control_amp=1, control_freq=0):
+            joint_origin_xyz_3=1, control_waveform=1, control_amp=1, control_freq=0.1):
 
         self.name = name
         self.parent_name = parent_name
         self.recur = recur
-        self.link_shpae = link_shape
+        self.link_shape = link_shape
         self.link_length = link_length
         self.link_radius = link_radius
         self.link_mass = link_mass
@@ -140,24 +157,86 @@ class URDFLink():
         self.control_amp = control_amp
         self.control_freq = control_freq
 
-    def link_to_xml(self, adom):
+    def to_link_element(self, adom):
 
         # TODO: complete all the tags for the link
+        # Visual tags
         link_tag = adom.createElement("link")
         link_tag.setAttribute("name", self.name)
         vis_tag = adom.createElement("visual")
         geom_tag = adom.createElement("geometry")
         cyl_tag = adom.createElement("cylinder")
         cyl_tag.setAttribute("length", str(self.link_length))
-        cyl_tag.setAttribute("radisu", str(self.link_radius))
+        cyl_tag.setAttribute("radius", str(self.link_radius))
 
         geom_tag.appendChild(cyl_tag)
         vis_tag.appendChild(geom_tag)
+
+        # Collisison tags
+        col_tag = adom.createElement("collision")
+
+        col_vis_tag = adom.createElement("visual")
+        col_geom_tag = adom.createElement("geometry")
+        col_cyl_tag = adom.createElement("cylinder")
+        col_cyl_tag.setAttribute("length", str(self.link_length))
+        col_cyl_tag.setAttribute("radius", str(self.link_radius))
+        
+        col_vis_tag.appendChild(col_cyl_tag)
+        col_geom_tag.appendChild(col_vis_tag)
+        col_tag.appendChild(col_geom_tag) # collision will have the sam geometry
+        
+        inertial_tag = adom.createElement("intertial")
+        mass_tag = adom.createElement("mass")
+        mass_tag.setAttribute("value", str(self.link_mass))
+        inertia_tag = adom.createElement("inertia")
+        # TODO: Check if these need to be changed
+        inertia_tag.setAttribute("ixx", "0.0003")
+        inertia_tag.setAttribute("iyy", "0.0003")
+        inertia_tag.setAttribute("izz", "0.0003")
+        
+        inertial_tag.appendChild(mass_tag)
+        inertial_tag.appendChild(inertia_tag)
+
         link_tag.appendChild(vis_tag)
+        link_tag.appendChild(col_tag)
+        link_tag.appendChild(inertial_tag)
 
-        return link_tag.toprettyxml()
+        return link_tag
 
-    def joint_to_xml(self, adom):
+    def to_joint_element(self, adom):
         # TODO: implement the link tag for URDF
-        return ""
+        joint_tag = adom.createElement('joint')
+        joint_tag.setAttribute('name', str(self.parent_name) + "_to_" + str(self.name))
+        if True: # TODO: change this condition to make sense
+            joint_tag.setAttribute('type', 'revolute')
+        else: 
+            joint_tag.setAttribute('type', 'fixed')
 
+        # Parent and child
+        parent_tag = adom.createElement('parent')
+        parent_tag.setAttribute('name', str(self.parent_name))
+        child_tag = adom.createElement('child')
+        child_tag.setAttribute('name', self.name)
+
+        # Axis
+        axis_tag = adom.createElement('axis')
+        axis_tag.setAttribute('xyz', '1 0 0')# FIX THIS
+
+        # Limit
+        limit_tag = adom.createElement('limit')
+        limit_tag.setAttribute('effort', '1')# NOT SURE IF THIS IS OK
+        limit_tag.setAttribute('velocity', '1')# NOT SURE IF THIS IS OK
+
+        # Origin
+        origin_tag = adom.createElement('origin')
+        origin_tag.setAttribute('rpy', '1 0 0')# FIX THIS
+        origin_tag.setAttribute('xyz', '0 0 0')# FIX THIS
+
+
+        joint_tag.appendChild(parent_tag)
+        joint_tag.appendChild(child_tag)
+        joint_tag.appendChild(axis_tag)
+        joint_tag.appendChild(limit_tag)
+        joint_tag.appendChild(origin_tag)
+
+        return joint_tag

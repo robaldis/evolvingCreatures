@@ -68,7 +68,7 @@ class GenomeTest(unittest.TestCase):
                 genome.URDFLink(name="D", parent_name="C", recur=1)
                 ]
         exp_links = [links[0]]
-        genome.Genome.expandLinks(links[0], links[0].name, links, exp_links)
+        genome.Genome.expand_links(links[0], links[0].name, links, exp_links)
         names = [l.name + " " + str(l.parent_name) for l in exp_links]
         # print(names)
         self.assertEqual(len(exp_links), 6)
@@ -82,7 +82,7 @@ class GenomeTest(unittest.TestCase):
                 ]
         expected = ["A", "B1", "C2", "D3", "C4", "D5"]
         exp_links = [links[0]]
-        genome.Genome.expandLinks(links[0], links[0].name, links, exp_links)
+        genome.Genome.expand_links(links[0], links[0].name, links, exp_links)
         names = [l.name for l in exp_links]
         self.assertEqual(names, expected)
 
@@ -110,9 +110,16 @@ class GenomeTest(unittest.TestCase):
         link = genome.URDFLink(name="A", parent_name=None, recur=1)
         domimpl = getDOMImplementation()
         adom = domimpl.createDocument(None, "robot", None)
-        xml_str = link.link_to_xml(adom)
-        print(xml_str)
-        self.assertIsNotNone(xml_str)
+        xml = link.to_link_element(adom)
+        print(xml.toprettyxml)
+        self.assertIsNotNone(xml)
 
+    def testJointToXMLNotNone(self):
+        link = genome.URDFLink(name="A", parent_name="A", recur=1)
+        domimpl = getDOMImplementation()
+        adom = domimpl.createDocument(None, "robot", None)
+        xml = link.to_joint_element(adom)
+        print(xml.toprettyxml)
+        self.assertIsNotNone(xml)
 
 unittest.main()
