@@ -20,7 +20,6 @@ class TestCreature (unittest.TestCase):
     def testToXML(self):
         c = creature.Creature(gene_count=4)
         xml = c.to_xml()
-        print(xml)
         self.assertIsNotNone(xml)
 
 

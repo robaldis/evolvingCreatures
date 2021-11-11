@@ -15,7 +15,7 @@ class Creature():
 
     def get_expanded_links(self):
         self.get_flat_links()
-        self.exp_links = [self.flat_links[0]]
+        self.exp_links = []
         genome.Genome.expand_links(self.flat_links[0], self.flat_links[0].name, self.flat_links, self.exp_links)
         return self.exp_links
 
