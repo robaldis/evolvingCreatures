@@ -1,5 +1,5 @@
 import unittest
-from src import creature
+from creature import creature
 
 class TestCreature (unittest.TestCase):
     def testCreatureExists(self):
@@ -23,6 +23,5 @@ class TestCreature (unittest.TestCase):
         self.assertIsNotNone(xml)
 
 
-
-
-unittest.main()
+if __name__ == "__main__":
+    unittest.main()

@@ -1,12 +1,42 @@
-from src import genome
+from creature import genome
 from xml.dom.minidom import getDOMImplementation
+from enum import Enum
+import numpy as np
+
+class MotorType(Enum):
+    PULSE = 1
+    SINE = 2
+
+class Motor():
+    def __init__(self, control_waveform, control_amp, control_freq):
+        if control_waveform <= 0.5:
+            self.motor_type = MotorType.PULSE
+        else:
+             self.motor_type = MotorType.SINE
+        self.amp = control_amp
+        self.freq = control_freq
+        self.phase = 0
+
+    def get_output(self):
+        self.phase = (self.phase + self.freq) % (np.pi * 2)
+
+        if self.motor_type == MotorType.PULSE:
+            if self.phase < np.pi:
+                output = 1
+            else:
+                output = -1
+        else :
+            output = np.sin(self.phase)
+
+        return output
+
 
 class Creature():
     def __init__(self, gene_count):
         self.spec = genome.Genome.get_gene_spec()
         self.dna = genome.Genome.get_random_genome(len(self.spec), gene_count)
         self.falt_liknks = None
-        self.exp_links = None
+        self.exp_links = []
 
     def get_flat_links(self):
         gdict = genome.Genome.get_genome_dict(self.dna, self.spec)
@@ -50,6 +80,15 @@ class Creature():
             file.write(xml_text)
         
 
+    def get_motors(self):
+        motors = []
+        for i in range(1, len(self.exp_links)):
+            l = self.exp_links[i]
+            M = Motor(l.control_waveform, l.control_amp, l.control_freq)
+            motors.append(M)
+
+        self.motors = motors
+        return self.motors
 
 
 

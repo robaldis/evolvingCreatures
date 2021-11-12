@@ -1,5 +1,5 @@
 import unittest
-from src import genome
+from creature import genome
 import numpy as np
 from xml.dom.minidom import getDOMImplementation
 
@@ -111,7 +111,6 @@ class GenomeTest(unittest.TestCase):
         domimpl = getDOMImplementation()
         adom = domimpl.createDocument(None, "robot", None)
         xml = link.to_link_element(adom)
-        print(xml.toprettyxml)
         self.assertIsNotNone(xml)
 
     def testJointToXMLNotNone(self):
@@ -119,7 +118,7 @@ class GenomeTest(unittest.TestCase):
         domimpl = getDOMImplementation()
         adom = domimpl.createDocument(None, "robot", None)
         xml = link.to_joint_element(adom)
-        print(xml.toprettyxml)
         self.assertIsNotNone(xml)
 
-unittest.main()
+if __name__ == "__main__":
+    unittest.main()
