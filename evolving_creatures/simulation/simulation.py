@@ -78,7 +78,7 @@ class ThreadedSim():
             pool_args.append(this_pool_args)
             start_ind = start_ind + pool_size
             
-        print(len(pool_args[0]))
+        # print(len(pool_args[0]))
         new_creatures = []
         for pool_argset in pool_args:
             with Pool(pool_size) as p:

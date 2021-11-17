@@ -2,112 +2,112 @@
 	<link name="0">
 		<visual>
 			<geometry>
-				<cylinder length="0.5594185856056871" radius="0.26532258228509176"/>
+				<cylinder length="0.24444525882237378" radius="0.5903946241826806"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<cylinder length="0.5594185856056871" radius="0.26532258228509176"/>
+				<cylinder length="0.24444525882237378" radius="0.5903946241826806"/>
 			</geometry>
 		</collision>
 		<inertial>
-			<mass value="0.3935946548676942"/>
+			<mass value="0.05787979911680308"/>
 			<inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
 		</inertial>
 	</link>
 	<link name="11">
 		<visual>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</collision>
 		<inertial>
-			<mass value="0.9014012552777548"/>
+			<mass value="0.4053506420887715"/>
 			<inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
 		</inertial>
 	</link>
 	<link name="12">
 		<visual>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</collision>
 		<inertial>
-			<mass value="0.9014012552777548"/>
+			<mass value="0.4053506420887715"/>
 			<inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
 		</inertial>
 	</link>
 	<link name="13">
 		<visual>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</collision>
 		<inertial>
-			<mass value="0.9014012552777548"/>
+			<mass value="0.4053506420887715"/>
 			<inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
 		</inertial>
 	</link>
 	<link name="14">
 		<visual>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<cylinder length="0.8050791113265188" radius="0.7967652626707986"/>
+				<cylinder length="0.20971072817688596" radius="0.3545763251454792"/>
 			</geometry>
 		</collision>
 		<inertial>
-			<mass value="0.9014012552777548"/>
+			<mass value="0.4053506420887715"/>
 			<inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
 		</inertial>
 	</link>
 	<link name="25">
 		<visual>
 			<geometry>
-				<cylinder length="0.08526561809607824" radius="0.8546981524996299"/>
+				<cylinder length="0.45530324497069463" radius="0.1728710910442851"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<cylinder length="0.08526561809607824" radius="0.8546981524996299"/>
+				<cylinder length="0.45530324497069463" radius="0.1728710910442851"/>
 			</geometry>
 		</collision>
 		<inertial>
-			<mass value="0.8947832574563347"/>
+			<mass value="0.5560371678881377"/>
 			<inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
 		</inertial>
 	</link>
 	<link name="26">
 		<visual>
 			<geometry>
-				<cylinder length="0.08526561809607824" radius="0.8546981524996299"/>
+				<cylinder length="0.45530324497069463" radius="0.1728710910442851"/>
 			</geometry>
 		</visual>
 		<collision>
 			<geometry>
-				<cylinder length="0.08526561809607824" radius="0.8546981524996299"/>
+				<cylinder length="0.45530324497069463" radius="0.1728710910442851"/>
 			</geometry>
 		</collision>
 		<inertial>
-			<mass value="0.8947832574563347"/>
+			<mass value="0.5560371678881377"/>
 			<inertia ixx="0.0003" iyy="0.0003" izz="0.0003"/>
 		</inertial>
 	</link>
@@ -116,41 +116,41 @@
 		<child link="11"/>
 		<axis xyz="1 0 0"/>
 		<limit effort="1" velocity="1"/>
-		<origin rpy="0.5863936291898857 4.69806648274824 0.8247175925889169" xyz="0.770172108080939 0.8462387172466617 0.9739261721034488"/>
+		<origin rpy="5.377656601893495 4.32067423514443 3.563202333276369" xyz="0.24242234705389487 0.33828020878731035 0.2959242856990707"/>
 	</joint>
 	<joint name="0_to_12" type="revolute">
 		<parent link="0"/>
 		<child link="12"/>
 		<axis xyz="1 0 0"/>
 		<limit effort="1" velocity="1"/>
-		<origin rpy="0.8795904437848285 4.69806648274824 0.8247175925889169" xyz="0.770172108080939 0.8462387172466617 0.9739261721034488"/>
+		<origin rpy="8.066484902840243 4.32067423514443 3.563202333276369" xyz="0.24242234705389487 0.33828020878731035 0.2959242856990707"/>
 	</joint>
 	<joint name="0_to_13" type="revolute">
 		<parent link="0"/>
 		<child link="13"/>
 		<axis xyz="1 0 0"/>
 		<limit effort="1" velocity="1"/>
-		<origin rpy="1.1727872583797714 4.69806648274824 0.8247175925889169" xyz="0.770172108080939 0.8462387172466617 0.9739261721034488"/>
+		<origin rpy="10.75531320378699 4.32067423514443 3.563202333276369" xyz="0.24242234705389487 0.33828020878731035 0.2959242856990707"/>
 	</joint>
 	<joint name="0_to_14" type="revolute">
 		<parent link="0"/>
 		<child link="14"/>
 		<axis xyz="1 0 0"/>
 		<limit effort="1" velocity="1"/>
-		<origin rpy="1.4659840729747142 4.69806648274824 0.8247175925889169" xyz="0.770172108080939 0.8462387172466617 0.9739261721034488"/>
+		<origin rpy="13.444141504733738 4.32067423514443 3.563202333276369" xyz="0.24242234705389487 0.33828020878731035 0.2959242856990707"/>
 	</joint>
 	<joint name="0_to_25" type="fixed">
 		<parent link="0"/>
 		<child link="25"/>
 		<axis xyz="1 0 0"/>
 		<limit effort="1" velocity="1"/>
-		<origin rpy="27.36328307248862 0.3324729514883024 5.097917870326313" xyz="0.16014508372725011 0.7462137259312588 0.662594928742491"/>
+		<origin rpy="20.585192229907925 0.36204938908470924 5.372293525679539" xyz="0.8326664985214015 0.1396020296978696 0.3874407679785091"/>
 	</joint>
 	<joint name="0_to_26" type="fixed">
 		<parent link="0"/>
 		<child link="26"/>
 		<axis xyz="1 0 0"/>
 		<limit effort="1" velocity="1"/>
-		<origin rpy="31.923830251236723 0.3324729514883024 5.097917870326313" xyz="0.16014508372725011 0.7462137259312588 0.662594928742491"/>
+		<origin rpy="24.016057601559243 0.36204938908470924 5.372293525679539" xyz="0.8326664985214015 0.1396020296978696 0.3874407679785091"/>
 	</joint>
 </robot>

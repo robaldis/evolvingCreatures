@@ -120,5 +120,33 @@ class GenomeTest(unittest.TestCase):
         xml = link.to_joint_element(adom)
         self.assertIsNotNone(xml)
 
+    def testCrossover(self):
+        g1 = [[1,1,1], [2,2,2], [3,3,3]]
+        g2 = [[4,4,4], [5,5,5], [6,6,6]]
+        for i in range(100):
+            g3 = genome.Genome.crossover(g1, g2)
+            self.assertGreater(len(g3), 0)
+
+    def testPointMutate(self):
+        g1 = [[1.,1.,1.], [2.,2.,2.], [3.,3.,3.]]
+        # print(g1)
+        g2 = genome.Genome.point_mutate(g1, rate=0.5, amount=0.25)
+        # print(g2)
+
+    def testShrinkMutate(self):
+        g1 = [[1.,1.,1.], [2.,2.,2.], [3.,3.,3.]]
+        g2 = genome.Genome.shrink_mutate(g1, rate=1)
+        self.assertNotEqual(len(g1), len(g2))
+
+    def testGrow(self):
+        g1 = [[1.,1.,1.], [2.,2.,2.], [3.,3.,3.]]
+        g2 = genome.Genome.grow_mutate(g1, rate=1)
+        self.assertGreater(len(g2), len(g1))
+
+
+
+
+    
+
 if __name__ == "__main__":
     unittest.main()
