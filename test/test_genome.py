@@ -2,6 +2,7 @@ import unittest
 from creature import genome
 import numpy as np
 from xml.dom.minidom import getDOMImplementation
+import os
 
 class GenomeTest(unittest.TestCase):
 
@@ -143,7 +144,27 @@ class GenomeTest(unittest.TestCase):
         g2 = genome.Genome.grow_mutate(g1, rate=1)
         self.assertGreater(len(g2), len(g1))
 
+    def test_tocsv(self):
+        g1 = [[1,2,3]]
+        genome.Genome.to_csv(g1, 'test.csv')
+        self.assertTrue(os.path.exists('test.csv'))
 
+    def test_tocsv2(self):
+        g1 = [[1,2,3]]
+        genome.Genome.to_csv(g1, 'test.csv')
+        expect = "1,2,3,\n"
+        with open("test.csv", "r") as f:
+            csv_str = f.read()
+            f.close()
+        self.assertEqual(csv_str, expect)
+
+    def test_fromcsv(self):
+        g1 = [[1,2,3], [4,5,6]]
+        genome.Genome.to_csv(g1, 'test.csv')
+        g2 = genome.Genome.from_csv('test.csv')
+        print(g1, g2)
+        self.assertEqual(g1, g2)
+        
 
 
     

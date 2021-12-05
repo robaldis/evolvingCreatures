@@ -11,13 +11,13 @@ floor = p.createMultiBody(floor_shape, floor_shape)
 p.setGravity(0,0,-10)
 
 
-c = creature.Creature(gene_count = 5)
+c = creature.Creature(gene_count = 3)
 
-with open('test', 'w') as f:
-    f.write(c.to_xml())
-    f.close()
+# with open('test.urdf', 'w') as f:
+#     f.write(c.to_xml())
+#     f.close()
 
-cid = p.loadURDF('URDF/0.urdf')
+cid = p.loadURDF('URDF/BEST.urdf')
 
 
 p.setRealTimeSimulation(1)

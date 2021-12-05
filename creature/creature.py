@@ -37,12 +37,23 @@ class Creature():
         self.dna = genome.Genome.get_random_genome(len(self.spec), gene_count)
         self.flat_links = None
         self.exp_links = None
+        self.get_flat_links()
         
         self.start_pos = None
         self.last_pos = None
 
         self.motors = None
+        self.dist = 0
 
+    def set_dna(self, dna):
+        self.dna = dna
+        self.flat_links = None
+        self.exp_links = None
+        self.start_pos = None
+        self.last_pos = None
+        self.motors = None
+        self.dist = 0
+        self.get_flat_links()
 
     def get_flat_links(self):
         if self.flat_links == None:
@@ -102,6 +113,12 @@ class Creature():
         return self.motors
 
     def update_position(self, pos):
+        if self.last_pos != None:
+            p1 = np.array(self.last_pos)
+            p2 = np.array(pos)
+            dist = np.linalg.norm(p1-p2)
+            self.dist += dist
+
         if (self.start_pos == None):
             self.start_pos = pos
         else:
@@ -114,7 +131,7 @@ class Creature():
         p1 = np.asarray(self.start_pos)
         p2 = np.asarray(self.last_pos)
         dist = np.linalg.norm(p1 - p2)
-        return dist
+        return self.dist
 
 
 
