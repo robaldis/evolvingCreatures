@@ -12,6 +12,10 @@ p.setGravity(0,0,-10)
 
 
 c = creature.Creature(gene_count = 5)
+print(c.dna)
+
+
+quit()
 
 with open("URDF/" + "test" + ".urdf", "w") as f:
     f.write(c.to_xml())

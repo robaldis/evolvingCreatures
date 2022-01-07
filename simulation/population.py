@@ -4,7 +4,7 @@ import numpy as np
 
 class Population:
     def __init__(self, pop_size=1, gene_count=3):
-        self.creatures = [creature.Creature(gene_count) for size in range(pop_size)]
+        self.creatures = [creature.Creature(gene_count) for _ in range(pop_size)]
 
     @staticmethod
     def get_fitness_map(fitness):

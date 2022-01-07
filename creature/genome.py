@@ -10,7 +10,7 @@ class Genome():
         """
         Generates a list of random float values of a given length
         """
-        gene = np.array([np.random.random() for i in range(length)])
+        gene = np.array([np.random.random() for _ in range(length)])
         return gene
 
     @staticmethod
@@ -18,7 +18,7 @@ class Genome():
         """
         Generates a random list of a gene of a determined length, list of lists,
         """
-        genome = [Genome.get_random_gene(gene_length) for i in range(genome_count)]
+        genome = [Genome.get_random_gene(gene_length) for _ in range(genome_count)]
         return genome
 
     @staticmethod
@@ -102,6 +102,8 @@ class Genome():
         for gdict in dnaDict:
             link_name = str(link_ind)
             parent_ind = gdict["joint-parent"] * len(parent_names)
+            if (parent_ind >= len(parent_names)):
+                parent_ind = len(parent_names)-1
             parent_name = parent_names[int(parent_ind)]
             recur = gdict["link-recurrence"] + 1
             link_length = gdict["link-length"]
@@ -147,6 +149,7 @@ class Genome():
                 ind = np.random.randint(len(gene))
                 r = (np.random.rand() - 0.5) * amount
                 gene[ind] = gene[ind] + r
+                gene[ind] = max(min(gene[ind], 1), 0)
         return genes
 
     @staticmethod

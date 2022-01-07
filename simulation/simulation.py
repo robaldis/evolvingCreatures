@@ -6,6 +6,7 @@ from multiprocessing import Pool
 class Simulation:
     def __init__(self, sim_id=0):
         self.physicsClientId = p.connect(p.DIRECT)
+        print(self.physicsClientId)
         self.sim_id = sim_id
 
     def run_creature(self, cr, iterations = 24000):
@@ -42,8 +43,14 @@ class Simulation:
                     print(cr.to_xml())
                     quit()
 
-                pos,_ = p.getBasePositionAndOrientation(cid, physicsClientId=self.physicsClientId)
-                cr.update_position(pos)    
+                # TODO: this keeps erroring out
+                # Try it out without multi-threading and see if it errors the same 
+                # way
+                try:
+                    pos,_ = p.getBasePositionAndOrientation(cid, physicsClientId=self.physicsClientId)
+                    cr.update_position(pos)    
+                except p.error:
+                    print(cid, self.physicsClientId)
                 
 
         dist = cr.get_distance_travled()
@@ -87,3 +94,11 @@ class ThreadedSim():
 
         pop.creatures = new_creatures
 
+class SingleSim():
+    def __init__(self):
+        self.sim = Simulation()
+
+    @staticmethod
+    def static_run_creature(sim, cr, iterations):
+        sim.run_creature(cr, iterations)
+        return cr

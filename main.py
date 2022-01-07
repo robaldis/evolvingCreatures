@@ -16,19 +16,18 @@ hyper_parameters = {
 
 # Parameters to test
 pop_size = ('pop_size', range(1,20))
-gene_count = ('gene_count', range(2,10))
+gene_count = ('gene_count', range(2,6))
 mutation_rate = ('mutation_rate', list(np.arange(0.1, 1, 0.1).round(2)))
 mutation_range = ('mutation_rate', list(np.arange(0.1, 1, 0.1).round(2)))
 
-testing_parameters = [pop_size, gene_count, mutation_rate, mutation_range]
+testing_parameters = [gene_count, mutation_rate, mutation_range]
 
 
 def run_ga(hyper_parameters):
     c = creature.Creature(20)
 
     pop = population.Population(pop_size=hyper_parameters['pop_size'], gene_count=hyper_parameters['gene_count'])
-    sim = simulation.ThreadedSim(pool_size= 8)
-    parameter = "pop_size"
+    sim = simulation.ThreadedSim(pool_size= 11)
 
     fitness = []
 
@@ -84,13 +83,13 @@ def main():
             hyper_parameters[parameter[0]] = value
             try: 
                 fitnesses = run_ga(hyper_parameters)
+                with open('parameter_testing.csv', 'a+') as f:
+                    for i, fitness in enumerate(fitnesses):
+                        f.write(f'{i}, {fitness}, {parameter[0]}, {value}\n')
             except IndexError:
                 print("error")
-                break
+                continue
 
-            with open('parameter_testing.csv', 'a+') as f:
-                for i, fitness in enumerate(fitnesses):
-                    f.write(f'{i}, {fitness}, {parameter[0]}, {value}\n')
 
 if __name__ == "__main__":
     main()
