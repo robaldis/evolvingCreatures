@@ -6,7 +6,7 @@ from multiprocessing import Pool
 class Simulation:
     def __init__(self, sim_id=0):
         self.physicsClientId = p.connect(p.DIRECT)
-        print(self.physicsClientId)
+        #print(self.physicsClientId)
         self.sim_id = sim_id
 
     def run_creature(self, cr, iterations = 24000):
@@ -44,13 +44,16 @@ class Simulation:
                     quit()
 
                 # TODO: this keeps erroring out
-                # Try it out without multi-threading and see if it errors the same 
-                # way
+                # I think what happens here is that the creature gets broken 
+                # making it so pybullet can no longer get the distance of it.
+                # Catching this will solve the problem and not cuase any issues
+                # with anything else.
                 try:
                     pos,_ = p.getBasePositionAndOrientation(cid, physicsClientId=self.physicsClientId)
-                    cr.update_position(pos)    
+                    cr.update_position(pos)
                 except p.error:
-                    print(cid, self.physicsClientId)
+                    pass
+                    #print("[sumulation.py::Simulation::run_creature]HIT pybullet error", cid, self.physicsClientId)
                 
 
         dist = cr.get_distance_travled()
@@ -93,6 +96,11 @@ class ThreadedSim():
                 new_creatures.extend(creatures)
 
         pop.creatures = new_creatures
+
+    def kill_sims(self):
+        for sim in self.sims:
+            p.disconnect(sim.physicsClientId)
+
 
 class SingleSim():
     def __init__(self):
